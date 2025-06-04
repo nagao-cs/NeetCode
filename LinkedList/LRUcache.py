@@ -1,10 +1,11 @@
+from typing import Optional
 class LRUCache:
     class ListNode:
         def __init__(self, key=0, val=0, next=None, prev=None):
             self.key = key
             self.val = val
-            self.next = next
-            self.prev = prev
+            self.next:Optional["LRUCache.ListNode"] = next
+            self.prev:Optional["LRUCache.ListNode"] = prev
 
     def __init__(self, capacity: int):
         self.capacity = capacity
@@ -44,6 +45,8 @@ class LRUCache:
     def removeNode(self, node) -> None:
         prev_node = node.prev
         next_node = node.next
+        assert prev_node is not None  # 追加
+        assert next_node is not None  # 追加
         prev_node.next = next_node
         next_node.prev = prev_node
         node.next, node.prev = None, None
@@ -55,12 +58,15 @@ class LRUCache:
         next_node = self.head.next #現在の先頭のノードをnext_node
         self.head.next = node
         node.prev = self.head
+        assert next_node is not None
         node.next, next_node.prev = next_node, node
         # self.printcache()
 
     def removeLast(self) -> None:
         #ListNodeの最後のノードを削除する
         last = self.tail.prev
+        assert last is not None
+        assert last.prev is not None
         last.prev.next = self.tail
         self.tail.prev = last.prev
         last.next, last.prev = None, None
@@ -71,6 +77,7 @@ class LRUCache:
         cache = "head->"
         node = self.head.next
         while node != self.tail:
+            assert node is not None
             cache += f"{node.val}->"
             node = node.next
         cache += "tail"

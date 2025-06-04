@@ -1,8 +1,10 @@
+from typing import List
+from typing import Optional
 class Trie:
     class Node:
         def __init__(self):
             self.children = dict()
-            self.val = None
+            self.val: Optional[str] = None
 
     def __init__(self):
         self.root = self.Node()
